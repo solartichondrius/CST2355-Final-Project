@@ -2,7 +2,7 @@ package com.example.chargingstation;
 
 
 import androidx.appcompat.app.AppCompatActivity;
-import com.example.finalproject.*;
+import com.example.newsheadlines.*;
 import android.os.Bundle;
 
 public class AboutActivity extends AppCompatActivity {
