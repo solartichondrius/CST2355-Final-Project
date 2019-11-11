@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import com.example.chargingstation.*;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,14 +14,14 @@ public class MainActivity  extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_layout);
-        /*
+
         Button carButton = findViewById(R.id.carButton);
         if(carButton != null)
             carButton.setOnClickListener( v -> {
-                Intent goToCarActivity = new Intent(getApplicationContext(), CarActivity.class);
+                Intent goToCarActivity = new Intent(MainActivity.this, ChargingActivity.class);
                 startActivity(goToCarActivity);
             });
-
+        /*
         Button recipeButton = findViewById(R.id.recipeButton);
         if(recipeButton != null)
             recipeButton.setOnClickListener( v -> {
