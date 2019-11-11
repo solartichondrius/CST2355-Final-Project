@@ -21,4 +21,17 @@
     <string name="carButton">Electric Car Charging Station Finder</string>
     <string name="recipeButton">Recipe Search Engine</string>
     <string name="currencyButton">Foreign Currency Conversion</string>
+
+
+    <!-- CHARGING STATION STRINGS -->
+        <!-- MAIN ACTIVITY STRINGS -->
+        <string name="searchButtonString">Search for Charging Stations</string>
+        <string name="favoriteButtonString">Go to Favorites</string>
+        <string name="aboutButtonString">About</string>
+
+        <!-- SEARCH ACTIVITY STRINGS-->
+        <string name="searchBarString">Search Charging Stations</string>
+        <string name="searchButtonText">Search Charging Stations</string>
+        <string name="longString">Longitude</string>
+        <string name="latString">Latitude</string>
 </resources>
