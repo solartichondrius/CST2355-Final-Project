@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/mainTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/mainTitle"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textSize="32dp"/>
+
+    <Button
+        android:id="@+id/carButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/carButton" />
+
+    <Button
+        android:id="@+id/recipeButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/recipeButton" />
+
+    <Button
+        android:id="@+id/currencyButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/currencyButton" />
+
+    <Button
+        android:id="@+id/newsButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/newsButton" />
+
+
+</LinearLayout>
