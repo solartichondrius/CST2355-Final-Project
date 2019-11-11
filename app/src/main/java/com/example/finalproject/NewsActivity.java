@@ -31,6 +31,8 @@ import java.util.ArrayList;
  */
 public class NewsActivity extends AppCompatActivity {
 
+    String VERSION_NUMBER = "2019-11-11";
+    String AUTHOR = "Thomas Curtis";
     BaseAdapter myAdapter; //Adapter for the list of News Headlines
     ArrayList<NewsHeadline> newsHeadlines = new ArrayList<>(); //array list for storing all of the news headlines
 

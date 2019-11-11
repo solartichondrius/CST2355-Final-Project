@@ -22,4 +22,5 @@
     <string name="carButton">Station de recharge pour voiture électrique</string>
     <string name="recipeButton">Moteur de recherche de recettes</string>
     <string name="currencyButton">Conversion de devise étrangère</string>
+    <string name="helpButton">Aidez-moi</string>
 </resources>
