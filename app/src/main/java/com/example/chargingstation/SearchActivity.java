@@ -6,10 +6,12 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.finalproject.*;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -48,6 +50,7 @@ public class SearchActivity extends AppCompatActivity {
     ArrayList<ChargingStation> stations = new ArrayList<>();
     BaseAdapter myAdapter;
     View thisRow;
+    SQLiteDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,14 +62,17 @@ public class SearchActivity extends AppCompatActivity {
 
         Button searchButton = findViewById(R.id.searchActivityButton);
 
-        longitudeText = findViewById(R.id.searchLongitude);
+        DatabaseOpenHelper dbOpener = new DatabaseOpenHelper(this);
+        db = dbOpener.getReadableDatabase();
 
+
+        longitudeText = findViewById(R.id.searchLongitude);
         latitudeText = findViewById(R.id.searchLatitude);
 
 
         sharedPrefs = getSharedPreferences("SavedCoordinates", Context.MODE_PRIVATE);
-        String previousLong = sharedPrefs.getString("searchLongitude", longitude);
-        String previousLat = sharedPrefs.getString("searchLatitude", latitude);
+        String previousLong = sharedPrefs.getString("searchLongitude", "Longitude");
+        String previousLat = sharedPrefs.getString("searchLatitude", "Latitude");
         latitudeText.setText(previousLat);
         longitudeText.setText(previousLong);
 
@@ -78,7 +84,7 @@ public class SearchActivity extends AppCompatActivity {
         list.setAdapter(myAdapter);
         list.setOnItemClickListener((lv, vw, pos, id) -> {
             ChargingStation station = stations.get(pos);
-                resultClicked(station.getTitle(), station.getLongitude(), station.getLatitude(), station.getPhone());
+                resultClicked(station);
         });
 
         searchButton.setOnClickListener(e -> {
@@ -129,13 +135,21 @@ public class SearchActivity extends AppCompatActivity {
         return true;
     }
 
-    public void resultClicked(String title, double longitude, double latitude, String phone){
+    public void resultClicked(ChargingStation station){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Name: " + title + "\n" + "Latitude: " + latitude + "\n" + "Longitude: " + longitude + "\n" + "Phone: " + phone)
+        builder.setMessage("Name: " + station.getTitle() + "\n" + "Latitude: " + station.getLatitude() + "\n" + "Longitude: " + station.getLongitude() + "\n" + "Phone: " + station.getPhone())
                 .setPositiveButton("Add to Favorites", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //add to favorites
+                        ContentValues newRowValues = new ContentValues();
+                        newRowValues.put(DatabaseOpenHelper.COL_TITLE, station.getTitle());
+                        newRowValues.put(DatabaseOpenHelper.COL_LONGITUDE, String.valueOf(station.getLongitude()));
+                        newRowValues.put(DatabaseOpenHelper.COL_LATITUDE, String.valueOf(station.getLatitude()));
+                        newRowValues.put(DatabaseOpenHelper.COL_PHONE, station.getPhone());
+
+                       long id = db.insert(DatabaseOpenHelper.TABLE, null, newRowValues);
+                       station.setId(id);
                     }
                 })
                 .setNegativeButton("Close", new DialogInterface.OnClickListener() {
@@ -157,7 +171,7 @@ public class SearchActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... args){
             String ret = null;
-            String queryURL = "https://api.openchargemap.io/v3/poi/?output=json&countrycode=CA&latitude=" + latitude + "&longitude=" + longitude + "&maxresults=10";
+            String queryURL = "https://api.openchargemap.io/v3/poi/?output=json&countrycode=CA&latitude=" + latitude + "&longitude=" + longitude + "&maxresults=20";
             Log.e("LOOK HERE", queryURL);
 
             try{

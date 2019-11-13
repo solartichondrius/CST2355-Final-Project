@@ -30,4 +30,8 @@
     <string name="longString">Longitude</string>
     <string name="latString">Latitude</string>
     <string name="helpButton">Help</string>
+    <string name="chargingFavoriteToolbarString">Favorites</string>
+    <string name="chargingSearchToolbarString">Search</string>
+    <string name="chargingHomeToolbarString">Home</string>
+    <string name="chargingAboutToolbarString">About</string>
 </resources>

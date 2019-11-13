@@ -8,8 +8,11 @@
     tools:context="com.example.chargingstation.ChargingActivity">
 
     <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/AppTheme.NoActionBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/toolbar" />
+        android:theme="@style/AppTheme"
+        app:title="@string/chargingHomeToolbarString" />
 
 </LinearLayout>

@@ -1,0 +1,36 @@
+package com.example.chargingstation;
+
+import android.app.Activity;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+public class DatabaseOpenHelper extends SQLiteOpenHelper {
+
+    public static final String DATABASE = "ChargingStationDatabase";
+    public static final int VERSION = 1;
+    public static final String TABLE = "FavoriteStations";
+    public static final String COL_ID = "ID";
+    public static final String COL_TITLE = "Title";
+    public static final String COL_LONGITUDE = "Longitude";
+    public static final String COL_LATITUDE ="Latitude";
+    public static final String COL_PHONE = "Phone";
+
+    public DatabaseOpenHelper(Activity context){
+        super(context, DATABASE, null, VERSION);
+    }
+
+    public void onCreate(SQLiteDatabase db){
+        db.execSQL("CREATE TABLE " + TABLE + " (" + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_TITLE + " TEXT, " + COL_LONGITUDE + " TEXT, " + COL_LATITUDE + " TEXT, " + COL_PHONE +" TEXT)");
+    }
+
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE);
+        onCreate(db);
+    }
+
+    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion){
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE);
+        onCreate(db);
+    }
+
+}

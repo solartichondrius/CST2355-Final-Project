@@ -6,6 +6,7 @@ public class ChargingStation {
     private double longitude;
     private double latitude;
     private String phone;
+    private long id;
 
     public ChargingStation(String title, double longitude, double latitude, String phone){
         this.title = title;
@@ -41,5 +42,13 @@ public class ChargingStation {
 
     public String getPhone() {
         return phone;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public long getId() {
+        return id;
     }
 }
