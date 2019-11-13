@@ -1,14 +1,21 @@
 package com.example.chargingstation;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import com.example.finalproject.*;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -47,15 +54,20 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+        Toolbar tbar = findViewById(R.id.search_toolbar);
+        setSupportActionBar(tbar);
+
         Button searchButton = findViewById(R.id.searchActivityButton);
 
         longitudeText = findViewById(R.id.searchLongitude);
-        longitude = longitudeText.getText().toString();
+
         latitudeText = findViewById(R.id.searchLatitude);
-        latitude = latitudeText.getText().toString();
+
 
         sharedPrefs = getSharedPreferences("SavedCoordinates", Context.MODE_PRIVATE);
         String previousLong = sharedPrefs.getString("searchLongitude", longitude);
+        String previousLat = sharedPrefs.getString("searchLatitude", latitude);
+        latitudeText.setText(previousLat);
         longitudeText.setText(previousLong);
 
         View progressBar = findViewById(R.id.progressBar);
@@ -66,10 +78,12 @@ public class SearchActivity extends AppCompatActivity {
         list.setAdapter(myAdapter);
         list.setOnItemClickListener((lv, vw, pos, id) -> {
             ChargingStation station = stations.get(pos);
-            
+                resultClicked(station.getTitle(), station.getLongitude(), station.getLatitude(), station.getPhone());
         });
 
         searchButton.setOnClickListener(e -> {
+            longitude = longitudeText.getText().toString();
+            latitude = latitudeText.getText().toString();
             SearchQuery searchQuery = new SearchQuery();
             searchQuery.execute();
         });
@@ -78,12 +92,59 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume(){
-        super.onResume();
+    protected void onPause(){
+        super.onPause();
 
         SharedPreferences.Editor editor = sharedPrefs.edit();
-        editor.putString("longitudeSearch", longitude);
+        editor.putString("searchLongitude", longitude);
+        editor.putString("searchLatitude", latitude);
         editor.commit();
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_charging, menu);
+        return true;
+    }
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch(item.getItemId()){
+            case R.id.aboutItem:
+                Intent goToAbout = new Intent(SearchActivity.this, AboutActivity.class);
+                startActivity(goToAbout);
+                break;
+            case R.id.favoriteItem:
+                Intent goToFavorite = new Intent(SearchActivity.this, FavoriteActivity.class);
+                startActivity(goToFavorite);
+                break;
+            case R.id.searchItem:
+                Intent goToSearch = new Intent(SearchActivity.this, SearchActivity.class);
+                startActivity(goToSearch);
+                break;
+            case R.id.homeItem:
+                Intent goHome = new Intent(SearchActivity.this, ChargingActivity.class);
+                startActivity(goHome);
+                break;
+        }
+
+        return true;
+    }
+
+    public void resultClicked(String title, double longitude, double latitude, String phone){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Name: " + title + "\n" + "Latitude: " + latitude + "\n" + "Longitude: " + longitude + "\n" + "Phone: " + phone)
+                .setPositiveButton("Add to Favorites", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //add to favorites
+                    }
+                })
+                .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //close dialog
+                    }
+                });
+        builder.create().show();
     }
 
     public class SearchQuery extends AsyncTask <String, Integer, String> {
@@ -97,6 +158,7 @@ public class SearchActivity extends AppCompatActivity {
         protected String doInBackground(String... args){
             String ret = null;
             String queryURL = "https://api.openchargemap.io/v3/poi/?output=json&countrycode=CA&latitude=" + latitude + "&longitude=" + longitude + "&maxresults=10";
+            Log.e("LOOK HERE", queryURL);
 
             try{
                 //connect to server
@@ -118,29 +180,31 @@ public class SearchActivity extends AppCompatActivity {
                     if(!result.isNull("OperatorInfo")) {
                         JSONObject operatorObject = result.getJSONObject("OperatorInfo");
                         String titleTemp = operatorObject.getString("Title");
-                        if (titleTemp != null) {
+                        if (!operatorObject.isNull("Title")) {
                             title = titleTemp;
                         } else {
                             title = "No name";
                         }
                         String phoneTemp = operatorObject.getString("PhonePrimaryContact");
-                        if(phoneTemp != null){
+                        if(!operatorObject.isNull("PhonePrimaryContact")){
                             phone = phoneTemp;
                         }else {
-                            phone = "No phone number";
+                            phone = "None";
                         }
 
                     }else {
                         title = "No name";
-                        phone = "No phone number";
+                        phone = "None";
                     }
                     if(!result.isNull("AddressInfo")){
                         JSONObject addressObject = result.getJSONObject("AddressInfo");
                         resultLong = addressObject.getDouble("Longitude");
                         resultLat = addressObject.getDouble("Latitude");
+                        phone = addressObject.getString("ContactTelephone1");
                     }else {
                         resultLong = 0;
                         resultLat = 0;
+                        phone = "None";
                     }
 
                     stations.add(new ChargingStation(title, resultLong, resultLat, phone));
