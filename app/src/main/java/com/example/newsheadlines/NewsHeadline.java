@@ -14,17 +14,9 @@ public class NewsHeadline {
     private String title;
     private String description;
     private String url;
-    private Bitmap image;
-    private Date publishedAt;
+    private String urlToImage;
+    private String publishedAt;
     private String content;
-
-    /**
-     * Constructor for creating News Headline objects, this one only uses one parameter (title) and is just meant as a placeholder to show that the listView works
-     * @param title the title of the News Headline
-     */
-    NewsHeadline(String title){
-        this.title = title;
-    }
 
     /**
      * Constructor for creating News Headline objects, using all the parameter found in the API
@@ -33,17 +25,17 @@ public class NewsHeadline {
      * @param source the source of the News Headline (organization/company)
      * @param description short description of the News Headline
      * @param url the url of the original News Headline
-     * @param image the image that goes with the News Headline
+     * @param urlToImage the url to the image that goes with the News Headline
      * @param publishedAt the date/time the News Headline was published, using ISO-8601 standard date format (YYYY-MM-DDTHH:MM:SS, example for Christmas: 2019-12-25T12:00:00)
      * @param content the content of the News Headline (the actual article containing the paragraphs of words)
      */
-    NewsHeadline(String source, String author, String title, String description, String url, Bitmap image, Date publishedAt, String content){
+    NewsHeadline(String source, String author, String title, String description, String url, String urlToImage, String publishedAt, String content){
         this.source = source;
         this.author = author;
         this.title = title;
         this.description = description;
         this.url=url;
-        this.image = image;
+        this.urlToImage = urlToImage;
         this.publishedAt = publishedAt;
         this.content = content;
     }
@@ -106,30 +98,30 @@ public class NewsHeadline {
     }
     /**
      * getter for the private variable "image" so that it may be accessed from outside this class
-     * @return image: the image that goes with the News Headline
+     * @return urlToImage: the url to the image that goes with the News Headline
      */
-    public Bitmap getImage() {
-        return image;
+    public String getUrlToImage() {
+        return urlToImage;
     }
     /**
      * setter for the private variable "image" so that it may be set/changed from outside this class
-     * @param image the image that goes with the News Headline
+     * @param urlToImage the url to the image that goes with the News Headline
      */
-    public void setImage(Bitmap image) {
-        this.image = image;
+    public void setUrlToImage(String urlToImage) {
+        this.urlToImage = urlToImage;
     }
     /**
      * getter for the private variable "publishedAt" so that it may be accessed from outside this class
      * @return publishedAt: the date/time the News Headline was published, using ISO-8601 standard date format (YYYY-MM-DDTHH:MM:SS, example for Christmas: 2019-12-25T12:00:00)
      */
-    public Date getPublishedAt() {
+    public String getPublishedAt() {
         return publishedAt;
     }
     /**
      * setter for the private variable "publishedAt" so that it may be set/changed from outside this class
      * @param publishedAt the date/time the News Headline was published, using ISO-8601 standard date format (YYYY-MM-DDTHH:MM:SS, example for Christmas: 2019-12-25T12:00:00)
      */
-    public void setPublishedAt(Date publishedAt) {
+    public void setPublishedAt(String publishedAt) {
         this.publishedAt = publishedAt;
     }
     /**

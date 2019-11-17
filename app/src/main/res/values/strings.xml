@@ -30,4 +30,17 @@
     <string name="longString">Longitude</string>
     <string name="latString">Latitude</string>
     <string name="helpButton">Help</string>
+    <string name="versionNumber">Version Number</string>
+    <string name="newsExplanation">How to use: Type something into the searchbar, then click the search button to search for news headlines that match your search phrase. You will then see a list of news headlines, you can click on them to see more detailed information about them.</string>
+    <string name="searchingFor">Searching for</string>
+    <string name="searchCompleteDisplaying">Search complete. Displaying</string>
+    <string name="outOf">out of</string>
+    <string name="totalResultsFound">total results found.</string>
+    <string name="webButton">Go To Website To View More</string>
+    <string name="saveButton">Save For Offline Viewing</string>
+    <string name="savedButton">View Saved Articles</string>
+    <string name="okay">Okay</string>
+    <string name="deleteButton">Delete this news article from local storage</string>
+    <string name="saved">Article successfully saved. You can now view it while offline.</string>
+    <string name="deleted">This article has been successfully deleted from local storage.</string>
 </resources>

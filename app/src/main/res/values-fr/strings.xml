@@ -23,4 +23,17 @@
     <string name="recipeButton">Moteur de recherche de recettes</string>
     <string name="currencyButton">Conversion de devise étrangère</string>
     <string name="helpButton">Aidez-moi</string>
+    <string name="versionNumber">Numéro de version</string>
+    <string name="newsExplanation">Comment utiliser: Tapez quelque chose dans la barre de recherche, puis cliquez sur le bouton de recherche pour rechercher les titres d\'actualités qui correspondent à votre expression de recherche. Vous verrez alors une liste de titres d\'actualités, vous pouvez cliquer dessus pour voir des informations plus détaillées à leur sujet.</string>
+    <string name="searchingFor">À la recherche de</string>
+    <string name="searchCompleteDisplaying">Recherche terminée. Affichage</string>
+    <string name="outOf">hors de</string>
+    <string name="totalResultsFound">résultats totaux trouvés.</string>
+    <string name="webButton">Aller sur le site pour voir plus</string>
+    <string name="saveButton">Enregistrer pour l\'affichage hors ligne</string>
+    <string name="savedButton">Voir les articles sauvegardés</string>
+    <string name="okay">D\'accord</string>
+    <string name="deleteButton">Supprimer cet article de nouvelles du stockage local</string>
+    <string name="saved">Article enregistré avec succès. Vous pouvez maintenant l\'afficher en mode hors connexion.</string>
+    <string name="deleted">Cet article a été supprimé du stockage local.</string>
 </resources>
