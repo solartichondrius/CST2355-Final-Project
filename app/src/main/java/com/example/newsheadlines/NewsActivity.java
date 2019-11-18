@@ -70,6 +70,10 @@ public class NewsActivity extends AppCompatActivity {
         }
     }
 
+    protected void onResume(){
+        super.onResume();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,6 +101,7 @@ public class NewsActivity extends AppCompatActivity {
         if(!empty){ //if the database is not empty, then load all of the news headlines in the database into the list view
             theList = findViewById(R.id.theList);
             theList.setAdapter( myAdapter = new newsHeadlinesAdapter() );
+            myAdapter.notifyDataSetChanged();
             String [] columns = {
                     SearchedNewsHeadlinesDBHelper.COL_ID,
                     SearchedNewsHeadlinesDBHelper.COL_SOURCE,
@@ -150,6 +155,7 @@ public class NewsActivity extends AppCompatActivity {
             savedButton.setOnClickListener( v -> {
                 theList = findViewById(R.id.theList);
                 theList.setAdapter( myAdapter = new savedArticlesAdapter() );
+                myAdapter.notifyDataSetChanged();
                 String [] columns = {
                         SavedNewsHeadlinesDBHelper.COL_ID,
                         SavedNewsHeadlinesDBHelper.COL_SOURCE,
@@ -332,6 +338,7 @@ public class NewsActivity extends AppCompatActivity {
             progressBar.setVisibility(View.INVISIBLE); //hide the progress bar since we're done loading now
             theList = findViewById(R.id.theList); //get the list view
             theList.setAdapter( myAdapter = new newsHeadlinesAdapter() ); //set the adapter which is responsible for updating the list view
+            myAdapter.notifyDataSetChanged();
             theList.setOnItemClickListener( ( parent,  view,  position,  id) ->{ //when any object in the list view is clicked run the following code
                 editor.putString("source", newsHeadlines.get(position).getSource());
                 editor.putString("author", newsHeadlines.get(position).getAuthor());
@@ -340,7 +347,7 @@ public class NewsActivity extends AppCompatActivity {
                 editor.putString("url", newsHeadlines.get(position).getUrl());
                 editor.putString("urlToImage", newsHeadlines.get(position).getUrlToImage());
                 editor.putString("publishedAt", newsHeadlines.get(position).getPublishedAt());
-                editor.putString("content", newsHeadlines.get(position).getContent());
+                editor.putString("content", newsHeadlines.get (position).getContent());
                 editor.commit(); //commit the above code, which stores all of the values from the selected news headline so it can be retrieved later in the Detailed Activity
                 Intent goToDetailedActivity = new Intent(getApplicationContext(), DetailedActivity.class);
                 startActivity(goToDetailedActivity); //go to the detailed activity, which displays all of the info about the selected news headline in more detail
