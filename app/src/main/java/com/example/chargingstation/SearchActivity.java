@@ -12,6 +12,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,6 +28,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -51,6 +54,7 @@ public class SearchActivity extends AppCompatActivity {
     BaseAdapter myAdapter;
     View thisRow;
     SQLiteDatabase db;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,9 +79,10 @@ public class SearchActivity extends AppCompatActivity {
         String previousLat = sharedPrefs.getString("searchLatitude", "Latitude");
         latitudeText.setText(previousLat);
         longitudeText.setText(previousLong);
-
-        View progressBar = findViewById(R.id.progressBar);
+        progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.INVISIBLE);
+
+
 
         ListView list = findViewById(R.id.searchResults);
         myAdapter = new MyListAdapter();
@@ -137,27 +142,40 @@ public class SearchActivity extends AppCompatActivity {
 
     public void resultClicked(ChargingStation station){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Name: " + station.getTitle() + "\n" + "Latitude: " + station.getLatitude() + "\n" + "Longitude: " + station.getLongitude() + "\n" + "Phone: " + station.getPhone())
-                .setPositiveButton("Add to Favorites", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //add to favorites
-                        ContentValues newRowValues = new ContentValues();
-                        newRowValues.put(DatabaseOpenHelper.COL_TITLE, station.getTitle());
-                        newRowValues.put(DatabaseOpenHelper.COL_LONGITUDE, String.valueOf(station.getLongitude()));
-                        newRowValues.put(DatabaseOpenHelper.COL_LATITUDE, String.valueOf(station.getLatitude()));
-                        newRowValues.put(DatabaseOpenHelper.COL_PHONE, station.getPhone());
+        builder.setMessage("Name: " + station.getTitle() + "\n" + "Latitude: " + station.getLatitude() + "\n" + "Longitude: " + station.getLongitude() + "\n" + "Phone: " + station.getPhone());
+        builder.setPositiveButton("Add to Favorites", new DialogInterface.OnClickListener()  {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //add to favorites
+                ContentValues newRowValues = new ContentValues();
+                newRowValues.put(DatabaseOpenHelper.COL_TITLE, station.getTitle());
+                newRowValues.put(DatabaseOpenHelper.COL_LONGITUDE, String.valueOf(station.getLongitude()));
+                newRowValues.put(DatabaseOpenHelper.COL_LATITUDE, String.valueOf(station.getLatitude()));
+                newRowValues.put(DatabaseOpenHelper.COL_PHONE, station.getPhone());
 
-                       long id = db.insert(DatabaseOpenHelper.TABLE, null, newRowValues);
-                       station.setId(id);
+                long id = db.insert(DatabaseOpenHelper.TABLE, null, newRowValues);
+                station.setId(id);
+                Toast.makeText(SearchActivity.this,"Saved to favorites", Toast.LENGTH_LONG).show();
+
+            }
+        });
+        builder.setNeutralButton("View Map", new DialogInterface.OnClickListener() {
+                @Override
+                 public void onClick(DialogInterface dialog, int which) {
+                    Uri mapIntentUri = Uri.parse("geo:" + station.getLatitude() + "," + station.getLongitude());
+                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, mapIntentUri);
+                    mapIntent.setPackage("com.google.android.apps.maps");
+                    if(mapIntent.resolveActivity(getPackageManager()) != null){
+                        startActivity(mapIntent);
                     }
-                })
-                .setNegativeButton("Close", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //close dialog
-                    }
-                });
+                }
+        });
+        builder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //close dialog
+            }
+        });
         builder.create().show();
     }
 
@@ -222,6 +240,7 @@ public class SearchActivity extends AppCompatActivity {
                     }
 
                     stations.add(new ChargingStation(title, resultLong, resultLat, phone));
+                    publishProgress(i);
                 }
 
             }catch(MalformedURLException mfe){
@@ -235,16 +254,20 @@ public class SearchActivity extends AppCompatActivity {
                 Log.e(ret, e.getMessage());
             }
 
+
+
             return ret;
         }
 
         public void onProgressUpdate(Integer... value){
-            ProgressBar progressBar = findViewById(R.id.progressBar);
+            super.onProgressUpdate();
             progressBar.setVisibility(View.VISIBLE);
             progressBar.setProgress(value[0]);
         }
 
         public void onPostExecute(String value){
+            super.onPostExecute(value);
+            progressBar.setVisibility(View.INVISIBLE);
             myAdapter.notifyDataSetChanged();
         }
     }

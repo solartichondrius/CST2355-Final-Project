@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -74,22 +75,33 @@ public class FavoriteActivity extends AppCompatActivity {
 
     public void resultClicked(ChargingStation station, int position){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Name: " + station.getTitle() + "\n" + "Latitude: " + station.getLatitude() + "\n" + "Longitude: " + station.getLongitude() + "\n" + "Phone: " + station.getPhone())
-                .setPositiveButton("Delete from Favorites", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                      // delete
-                        db.execSQL("DELETE FROM " + DatabaseOpenHelper.TABLE + " WHERE " + DatabaseOpenHelper.COL_ID + " = " + station.getId());
-                        stations.remove(stations.get(position));
-                        myAdapter.notifyDataSetChanged();
-                    }
-                })
-                .setNegativeButton("Close", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //close dialog
-                    }
-                });
+        builder.setMessage("Name: " + station.getTitle() + "\n" + "Latitude: " + station.getLatitude() + "\n" + "Longitude: " + station.getLongitude() + "\n" + "Phone: " + station.getPhone());
+        builder.setPositiveButton("Delete from Favorites", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // delete
+                db.execSQL("DELETE FROM " + DatabaseOpenHelper.TABLE + " WHERE " + DatabaseOpenHelper.COL_ID + " = " + station.getId());
+                stations.remove(stations.get(position));
+                myAdapter.notifyDataSetChanged();
+            }
+        });
+        builder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //close dialog
+            }
+        });
+        builder.setNeutralButton("View Map", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Uri mapIntentUri = Uri.parse("geo:" + station.getLatitude() + "," + station.getLongitude());
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, mapIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                if(mapIntent.resolveActivity(getPackageManager()) != null){
+                    startActivity(mapIntent);
+                }
+            }
+        });
         builder.create().show();
     }
 

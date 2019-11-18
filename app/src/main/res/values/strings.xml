@@ -34,4 +34,5 @@
     <string name="chargingSearchToolbarString">Search</string>
     <string name="chargingHomeToolbarString">Home</string>
     <string name="chargingAboutToolbarString">About</string>
+    <string name="chargingViewMapButtonString">View Map</string>
 </resources>
