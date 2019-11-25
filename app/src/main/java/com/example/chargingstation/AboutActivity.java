@@ -60,7 +60,7 @@ public class AboutActivity extends AppCompatActivity {
                 startActivity(goToSearch);
                 break;
             case R.id.homeItem:
-                Intent goHome = new Intent(AboutActivity.this, ChargingActivity.class);
+                Intent goHome = new Intent(AboutActivity.this, MainActivity.class);
                 startActivity(goHome);
                 break;
         }

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/chargingItem"
+        android:icon="@drawable/car_icon"
+        android:title="@string/electricCarChargingStationFinder"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/recipeItem"
+        android:icon="@drawable/recipe_icon"
+        android:title="@string/recipeSearchEngine"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/currencyItem"
+        android:icon="@drawable/currency_icon"
+        android:title="@string/foreignCurrencyConverter"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/newsItem"
+        android:icon="@drawable/news_icon"
+        android:title="@string/newsHeadlines"
+        app:showAsAction="ifRoom" />
+
+</menu>

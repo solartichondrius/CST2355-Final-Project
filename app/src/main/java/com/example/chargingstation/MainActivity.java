@@ -13,7 +13,7 @@ import android.view.MenuItem;
 /**
  * This class is the main activity for the car charging station portion of the app.
  */
-public class ChargingActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
     /**
      * Sets the view from activity_charging
@@ -48,19 +48,19 @@ public class ChargingActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId()){
             case R.id.aboutItem:
-                Intent goToAbout = new Intent(ChargingActivity.this, AboutActivity.class);
+                Intent goToAbout = new Intent(MainActivity.this, AboutActivity.class);
                 startActivity(goToAbout);
                 break;
             case R.id.favoriteItem:
-                Intent goToFavorite = new Intent(ChargingActivity.this, FavoriteActivity.class);
+                Intent goToFavorite = new Intent(MainActivity.this, FavoriteActivity.class);
                 startActivity(goToFavorite);
                 break;
             case R.id.searchItem:
-                Intent goToSearch = new Intent(ChargingActivity.this, SearchActivity.class);
+                Intent goToSearch = new Intent(MainActivity.this, SearchActivity.class);
                 startActivity(goToSearch);
                 break;
             case R.id.homeItem:
-                Intent goHome = new Intent(ChargingActivity.this, ChargingActivity.class);
+                Intent goHome = new Intent(MainActivity.this, MainActivity.class);
                 startActivity(goHome);
                 break;
         }

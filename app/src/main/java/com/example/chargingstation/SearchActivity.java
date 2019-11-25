@@ -161,7 +161,7 @@ public class SearchActivity extends AppCompatActivity {
                 startActivity(goToSearch);
                 break;
             case R.id.homeItem:
-                Intent goHome = new Intent(SearchActivity.this, ChargingActivity.class);
+                Intent goHome = new Intent(SearchActivity.this, MainActivity.class);
                 startActivity(goHome);
                 break;
         }

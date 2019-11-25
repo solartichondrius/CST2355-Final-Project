@@ -157,7 +157,7 @@ public class FavoriteActivity extends AppCompatActivity {
                 startActivity(goToSearch);
                 break;
             case R.id.homeItem:
-                Intent goHome = new Intent(FavoriteActivity.this, ChargingActivity.class);
+                Intent goHome = new Intent(FavoriteActivity.this, MainActivity.class);
                 startActivity(goHome);
                 break;
         }

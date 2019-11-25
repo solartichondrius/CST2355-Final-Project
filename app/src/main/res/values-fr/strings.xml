@@ -48,4 +48,8 @@
     <string name="chargingHomeToolbarString">Station de charge</string>
     <string name="chargingAboutToolbarString">Sur</string>
     <string name="chargingViewMapButtonString">Voir la carte</string>
+    <string name="electricCarChargingStationFinder">Station de recharge pour voiture électrique</string>
+    <string name="recipeSearchEngine">Moteur de recherche de recettes</string>
+    <string name="foreignCurrencyConverter">Convertisseur de devise étrangère</string>
+    <string name="newsHeadlines">Actualités</string>
 </resources>

@@ -48,4 +48,8 @@
     <string name="chargingHomeToolbarString">Charging Station</string>
     <string name="chargingAboutToolbarString">About</string>
     <string name="chargingViewMapButtonString">View Map</string>
+    <string name="electricCarChargingStationFinder">Electric Car Charging Station Finder</string>
+    <string name="recipeSearchEngine">Recipe Search Engine</string>
+    <string name="foreignCurrencyConverter">Foreign Currency Converter</string>
+    <string name="newsHeadlines">News Headlines</string>
 </resources>

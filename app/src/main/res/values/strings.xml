@@ -48,4 +48,8 @@
     <string name="deleteButton">Delete this news article from local storage</string>
     <string name="saved">Article successfully saved. You can now view it while offline.</string>
     <string name="deleted">This article has been successfully deleted from local storage.</string>
+    <string name="electricCarChargingStationFinder">Electric Car Charging Station Finder</string>
+    <string name="recipeSearchEngine">Recipe Search Engine</string>
+    <string name="foreignCurrencyConverter">Foreign Currency Converter</string>
+    <string name="newsHeadlines">News Headlines</string>
 </resources>
