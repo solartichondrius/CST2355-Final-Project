@@ -23,12 +23,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.example.newsheadlines.NewsActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.example.newsheadlines.DetailedActivity"
-            android:screenOrientation="portrait" />
+        <activity android:name="com.example.newsheadlines.NewsActivity" />
+        <activity android:name="com.example.newsheadlines.DetailedActivity" />
+        <activity android:name="com.example.newsheadlines.EmptyActivity" />
     </application>
 
 </manifest>

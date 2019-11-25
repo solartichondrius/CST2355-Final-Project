@@ -41,7 +41,7 @@ public class NewsActivity extends AppCompatActivity {
 
     ProgressBar progressBar; //progress bar to show the progress of the search for news headlines
     ListView theList; //list view to display the list of news headlines
-    String VERSION_NUMBER = "2019-11-14"; //when this program was last updated
+    String VERSION_NUMBER = "2019-11-25"; //when this program was last updated
     String ACTIVITY_NAME = "News Headline"; //name of this activity
     String AUTHOR = "Thomas Curtis"; //the person who wrote this program
     BaseAdapter myAdapter; //Adapter for the list of News Headlines
@@ -51,6 +51,7 @@ public class NewsActivity extends AppCompatActivity {
     SharedPreferences.Editor editor; //used to edit the values to use in other parts of the program
     SQLiteDatabase searchedDB; //the database to store all the news articles that the user searched for
     SQLiteDatabase savedDB; //the database to store all the news articles that the user chooses to save
+    public static final int EMPTY_ACTIVITY = 345;
 
     @Override
     protected void onStop(){ //when the program is stopped
@@ -93,6 +94,7 @@ public class NewsActivity extends AppCompatActivity {
         savedDB = savedDBOpener.getWritableDatabase();
         SearchedNewsHeadlinesDBHelper searchedDBOpener = new SearchedNewsHeadlinesDBHelper(this);
         searchedDB = searchedDBOpener.getWritableDatabase();
+        boolean isTablet = findViewById(R.id.fragmentLocation) != null; //check if the FrameLayout is loaded
 
         boolean empty = true;
         Cursor cur = searchedDB.rawQuery("SELECT COUNT(*) FROM " + SearchedNewsHeadlinesDBHelper.TABLE_NAME, null);
@@ -116,17 +118,33 @@ public class NewsActivity extends AppCompatActivity {
             Cursor results = searchedDB.query(false, SearchedNewsHeadlinesDBHelper.TABLE_NAME, columns, null, null, null, null, null, null);
             printCursor(results, newsHeadlines);
             theList.setOnItemClickListener( ( parent,  view,  position,  id) ->{
-                editor.putString("source", newsHeadlines.get(position).getSource());
-                editor.putString("author", newsHeadlines.get(position).getAuthor());
-                editor.putString("title", newsHeadlines.get(position).getTitle());
-                editor.putString("description", newsHeadlines.get(position).getDescription());
-                editor.putString("url", newsHeadlines.get(position).getUrl());
-                editor.putString("urlToImage", newsHeadlines.get(position).getUrlToImage());
-                editor.putString("publishedAt", newsHeadlines.get(position).getPublishedAt());
-                editor.putString("content", newsHeadlines.get(position).getContent());
-                editor.commit();
-                Intent goToDetailedActivity = new Intent(getApplicationContext(), DetailedActivity.class);
-                startActivity(goToDetailedActivity);
+                Bundle dataToPass = new Bundle();
+                dataToPass.putString("source", newsHeadlines.get(position).getSource());
+                dataToPass.putString("author", newsHeadlines.get(position).getAuthor());
+                dataToPass.putString("title", newsHeadlines.get(position).getTitle());
+                dataToPass.putString("description", newsHeadlines.get(position).getDescription());
+                dataToPass.putString("url", newsHeadlines.get(position).getUrl());
+                dataToPass.putString("urlToImage", newsHeadlines.get(position).getUrlToImage());
+                dataToPass.putString("publishedAt", newsHeadlines.get(position).getPublishedAt());
+                dataToPass.putString("content", newsHeadlines.get(position).getContent());
+
+                if(isTablet)
+                {
+                    DetailedActivity dFragment = new DetailedActivity(); //add a DetailFragment
+                    dFragment.setArguments( dataToPass ); //pass it a bundle for information
+                    dFragment.setTablet(true);  //tell the fragment if it's running on a tablet or not
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragmentLocation, dFragment) //Add the fragment in FrameLayout
+                            .addToBackStack("AnyName") //make the back button undo the transaction
+                            .commit(); //actually load the fragment.
+                }
+                else //isPhone
+                {
+                    Intent nextActivity = new Intent(NewsActivity.this, EmptyActivity.class);
+                    nextActivity.putExtras(dataToPass); //send data to next activity
+                    startActivityForResult(nextActivity, EMPTY_ACTIVITY); //make the transition
+                }
             });
         }
 
@@ -170,17 +188,33 @@ public class NewsActivity extends AppCompatActivity {
                 Cursor results = savedDB.query(false, SavedNewsHeadlinesDBHelper.TABLE_NAME, columns, null, null, null, null, null, null);
                 printCursor(results, savedArticles);
                 theList.setOnItemClickListener( ( parent,  view,  position,  id) ->{
-                    editor.putString("source", savedArticles.get(position).getSource());
-                    editor.putString("author", savedArticles.get(position).getAuthor());
-                    editor.putString("title", savedArticles.get(position).getTitle());
-                    editor.putString("description", savedArticles.get(position).getDescription());
-                    editor.putString("url", savedArticles.get(position).getUrl());
-                    editor.putString("urlToImage", savedArticles.get(position).getUrlToImage());
-                    editor.putString("publishedAt", savedArticles.get(position).getPublishedAt());
-                    editor.putString("content", savedArticles.get(position).getContent());
-                    editor.commit();
-                    Intent goToDetailedActivity = new Intent(getApplicationContext(), DetailedActivity.class);
-                    startActivity(goToDetailedActivity);
+                    Bundle dataToPass = new Bundle();
+                    dataToPass.putString("source", savedArticles.get(position).getSource());
+                    dataToPass.putString("author", savedArticles.get(position).getAuthor());
+                    dataToPass.putString("title", savedArticles.get(position).getTitle());
+                    dataToPass.putString("description", savedArticles.get(position).getDescription());
+                    dataToPass.putString("url", savedArticles.get(position).getUrl());
+                    dataToPass.putString("urlToImage", savedArticles.get(position).getUrlToImage());
+                    dataToPass.putString("publishedAt", savedArticles.get(position).getPublishedAt());
+                    dataToPass.putString("content", savedArticles.get(position).getContent());
+
+                    if(isTablet)
+                    {
+                        DetailedActivity dFragment = new DetailedActivity(); //add a DetailFragment
+                        dFragment.setArguments( dataToPass ); //pass it a bundle for information
+                        dFragment.setTablet(true);  //tell the fragment if it's running on a tablet or not
+                        getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.fragmentLocation, dFragment) //Add the fragment in FrameLayout
+                                .addToBackStack("AnyName") //make the back button undo the transaction
+                                .commit(); //actually load the fragment.
+                    }
+                    else //isPhone
+                    {
+                        Intent nextActivity = new Intent(NewsActivity.this, EmptyActivity.class);
+                        nextActivity.putExtras(dataToPass); //send data to next activity
+                        startActivityForResult(nextActivity, EMPTY_ACTIVITY); //make the transition
+                    }
                 });
             });
     }
@@ -340,17 +374,33 @@ public class NewsActivity extends AppCompatActivity {
             theList.setAdapter( myAdapter = new newsHeadlinesAdapter() ); //set the adapter which is responsible for updating the list view
             myAdapter.notifyDataSetChanged();
             theList.setOnItemClickListener( ( parent,  view,  position,  id) ->{ //when any object in the list view is clicked run the following code
-                editor.putString("source", newsHeadlines.get(position).getSource());
-                editor.putString("author", newsHeadlines.get(position).getAuthor());
-                editor.putString("title", newsHeadlines.get(position).getTitle());
-                editor.putString("description", newsHeadlines.get(position).getDescription());
-                editor.putString("url", newsHeadlines.get(position).getUrl());
-                editor.putString("urlToImage", newsHeadlines.get(position).getUrlToImage());
-                editor.putString("publishedAt", newsHeadlines.get(position).getPublishedAt());
-                editor.putString("content", newsHeadlines.get (position).getContent());
-                editor.commit(); //commit the above code, which stores all of the values from the selected news headline so it can be retrieved later in the Detailed Activity
-                Intent goToDetailedActivity = new Intent(getApplicationContext(), DetailedActivity.class);
-                startActivity(goToDetailedActivity); //go to the detailed activity, which displays all of the info about the selected news headline in more detail
+                Bundle dataToPass = new Bundle();
+                dataToPass.putString("source", newsHeadlines.get(position).getSource());
+                dataToPass.putString("author", newsHeadlines.get(position).getAuthor());
+                dataToPass.putString("title", newsHeadlines.get(position).getTitle());
+                dataToPass.putString("description", newsHeadlines.get(position).getDescription());
+                dataToPass.putString("url", newsHeadlines.get(position).getUrl());
+                dataToPass.putString("urlToImage", newsHeadlines.get(position).getUrlToImage());
+                dataToPass.putString("publishedAt", newsHeadlines.get(position).getPublishedAt());
+                dataToPass.putString("content", newsHeadlines.get(position).getContent());
+                boolean isTablet = findViewById(R.id.fragmentLocation) != null; //check if the FrameLayout is loaded
+                if(isTablet)
+                {
+                    DetailedActivity dFragment = new DetailedActivity(); //add a DetailFragment
+                    dFragment.setArguments( dataToPass ); //pass it a bundle for information
+                    dFragment.setTablet(true);  //tell the fragment if it's running on a tablet or not
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragmentLocation, dFragment) //Add the fragment in FrameLayout
+                            .addToBackStack("AnyName") //make the back button undo the transaction
+                            .commit(); //actually load the fragment.
+                }
+                else //isPhone
+                {
+                    Intent nextActivity = new Intent(NewsActivity.this, EmptyActivity.class);
+                    nextActivity.putExtras(dataToPass); //send data to next activity
+                    startActivityForResult(nextActivity, EMPTY_ACTIVITY); //make the transition
+                }
             });
         }
     }

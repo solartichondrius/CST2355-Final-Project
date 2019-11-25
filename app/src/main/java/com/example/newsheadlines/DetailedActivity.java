@@ -10,12 +10,16 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.File;
@@ -29,73 +33,81 @@ import java.net.URL;
 /**
  * Activity to display a detailed view of a NewsHeadline
  */
-public class DetailedActivity extends AppCompatActivity {
+public class DetailedActivity extends Fragment {
 
     SQLiteDatabase savedDB;
     Button saveButton = null;
     Button deleteButton = null;
+    private boolean isTablet;
+    private Bundle dataFromActivity;
+    private long id;
+
+    public void setTablet(boolean tablet) { isTablet = tablet; }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.detailed_layout);
-        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);
-        SharedPreferences.Editor editor = pref.edit();
-        SavedNewsHeadlinesDBHelper dbOpener = new SavedNewsHeadlinesDBHelper(this);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                Bundle savedInstanceState) {
+
+        dataFromActivity = getArguments();
+        SavedNewsHeadlinesDBHelper dbOpener = new SavedNewsHeadlinesDBHelper(getActivity());
         savedDB = dbOpener.getWritableDatabase();
 
-        TextView source = findViewById(R.id.source);
-        TextView author = findViewById(R.id.author);
-        TextView title = findViewById(R.id.title);
-        TextView description = findViewById(R.id.description);
-        TextView url = findViewById(R.id.url);
-        ImageView image = findViewById(R.id.image);
-        TextView publishedAt = findViewById(R.id.publishedAt);
-        TextView content = findViewById(R.id.content);
-        Button webButton = findViewById(R.id.webButton);
+        // Inflate the layout for this fragment
+        View result =  inflater.inflate(R.layout.detailed_layout, container, false);
 
-        source.setText(pref.getString("source", null));
-        author.setText(pref.getString("author", null));
-        title.setText(pref.getString("title", null));
-        description.setText(pref.getString("description", null));
-        url.setText(pref.getString("url", null));
+
+        TextView source = result.findViewById(R.id.source);
+        TextView author = result.findViewById(R.id.author);
+        TextView title = result.findViewById(R.id.title);
+        TextView description = result.findViewById(R.id.description);
+        TextView url = result.findViewById(R.id.url);
+        ImageView image = result.findViewById(R.id.image);
+        TextView publishedAt = result.findViewById(R.id.publishedAt);
+        TextView content = result.findViewById(R.id.content);
+        Button webButton = result.findViewById(R.id.webButton);
+
+        source.setText(dataFromActivity.getString("source", null));
+        author.setText(dataFromActivity.getString("author", null));
+        title.setText(dataFromActivity.getString("title", null));
+        description.setText(dataFromActivity.getString("description", null));
+        url.setText(dataFromActivity.getString("url", null));
         try {
-            image.setImageBitmap(image(pref));
+            image.setImageBitmap(image(dataFromActivity.getString("title", null), dataFromActivity.getString("urlToImage", null)));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        publishedAt.setText(pref.getString("publishedAt", null));
-        content.setText(pref.getString("content", null));
+        publishedAt.setText(dataFromActivity.getString("publishedAt", null));
+        content.setText(dataFromActivity.getString("content", null));
 
-        if(isAlreadyInDB(pref)) {
-            deleteButton = findViewById(R.id.deleteButton);
+        if(isAlreadyInDB(dataFromActivity.getString("url", null))) {
+            deleteButton = result.findViewById(R.id.deleteButton);
             deleteButton.setVisibility(View.VISIBLE);
         }else{
-            saveButton = findViewById(R.id.saveButton);
+            saveButton = result.findViewById(R.id.saveButton);
             saveButton.setVisibility(View.VISIBLE);
         }
 
         if(webButton != null)
             webButton.setOnClickListener( v -> {
                 Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(pref.getString("url", null)));
+                i.setData(Uri.parse(dataFromActivity.getString("url", null)));
                 startActivity(i);
             });
 
         if(saveButton != null)
             saveButton.setOnClickListener( v -> {
                 ContentValues newValues = new ContentValues();
-                newValues.put(SavedNewsHeadlinesDBHelper.COL_SOURCE, pref.getString("source", null));
-                newValues.put(SavedNewsHeadlinesDBHelper.COL_AUTHOR, pref.getString("author", null));
-                newValues.put(SavedNewsHeadlinesDBHelper.COL_TITLE, pref.getString("title", null));
-                newValues.put(SavedNewsHeadlinesDBHelper.COL_DESCRIPTION, pref.getString("description", null));
-                newValues.put(SavedNewsHeadlinesDBHelper.COL_URL, pref.getString("url", null));
-                newValues.put(SavedNewsHeadlinesDBHelper.COL_URLTOIMAGE, pref.getString("urlToImage", null));
-                newValues.put(SavedNewsHeadlinesDBHelper.COL_PUBLISHEDAT, pref.getString("publishedAt", null));
-                newValues.put(SavedNewsHeadlinesDBHelper.COL_CONTENT, pref.getString("content", null));
+                newValues.put(SavedNewsHeadlinesDBHelper.COL_SOURCE, dataFromActivity.getString("source", null));
+                newValues.put(SavedNewsHeadlinesDBHelper.COL_AUTHOR, dataFromActivity.getString("author", null));
+                newValues.put(SavedNewsHeadlinesDBHelper.COL_TITLE, dataFromActivity.getString("title", null));
+                newValues.put(SavedNewsHeadlinesDBHelper.COL_DESCRIPTION, dataFromActivity.getString("description", null));
+                newValues.put(SavedNewsHeadlinesDBHelper.COL_URL, dataFromActivity.getString("url", null));
+                newValues.put(SavedNewsHeadlinesDBHelper.COL_URLTOIMAGE, dataFromActivity.getString("urlToImage", null));
+                newValues.put(SavedNewsHeadlinesDBHelper.COL_PUBLISHEDAT, dataFromActivity.getString("publishedAt", null));
+                newValues.put(SavedNewsHeadlinesDBHelper.COL_CONTENT, dataFromActivity.getString("content", null));
                 savedDB.insert(SavedNewsHeadlinesDBHelper.TABLE_NAME, null, newValues);
                 Snackbar.make(saveButton, getString(R.string.saved), Snackbar.LENGTH_LONG).show();
-                deleteButton = findViewById(R.id.deleteButton);
+                deleteButton = result.findViewById(R.id.deleteButton);
                 saveButton.setVisibility(View.INVISIBLE);
                 saveButton = null;
                 deleteButton.setVisibility(View.VISIBLE);
@@ -103,15 +115,15 @@ public class DetailedActivity extends AppCompatActivity {
 
         if(deleteButton != null)
             deleteButton.setOnClickListener( v -> {
-                savedDB.delete(SavedNewsHeadlinesDBHelper.TABLE_NAME, SavedNewsHeadlinesDBHelper.COL_URL + " = ?", new String[]{pref.getString("url", null)});
+                savedDB.delete(SavedNewsHeadlinesDBHelper.TABLE_NAME, SavedNewsHeadlinesDBHelper.COL_URL + " = ?", new String[]{dataFromActivity.getString("url", null)});
                 Snackbar.make(deleteButton, getString(R.string.deleted), Snackbar.LENGTH_LONG).show();
-                saveButton = findViewById(R.id.saveButton);
+                saveButton = result.findViewById(R.id.saveButton);
                 deleteButton.setVisibility(View.INVISIBLE);
                 deleteButton = null;
                 saveButton.setVisibility(View.VISIBLE);
             });
 
-
+        return result;
     }
     /**
      * gets an image from a url
@@ -133,25 +145,24 @@ public class DetailedActivity extends AppCompatActivity {
     }
     /**
      * Load an image either from url or file depending on whether it is already saved as a file or not.
-     * @param pref SharedPreferences where thr image's url is stored
+     * @param title
+     * @param urlToImage
      * @return the image
      * @throws IOException
      */
-    public Bitmap image(SharedPreferences pref) throws IOException {
-        String title = pref.getString("title", null);
+    public Bitmap image(String title, String urlToImage) throws IOException {
         Bitmap image;
         if (fileExistence(title + ".png")) {
             FileInputStream inputStream = null;
             try {
-                inputStream = new FileInputStream(getBaseContext().getFileStreamPath(title + ".png"));
+                inputStream = new FileInputStream(getActivity().getFileStreamPath(title + ".png"));
             } catch (Exception e) {
                 e.printStackTrace();
             }
             image = BitmapFactory.decodeStream(inputStream);
         } else {
-            String urlToImage = pref.getString("urlToImage", null);
             image = getBitmapFromURL(urlToImage);
-            FileOutputStream outputStream = openFileOutput( title + ".png", Context.MODE_PRIVATE);
+            FileOutputStream outputStream = getActivity().openFileOutput( title + ".png", Context.MODE_PRIVATE);
             if(image!=null) image.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
             outputStream.flush();
             outputStream.close();
@@ -165,20 +176,20 @@ public class DetailedActivity extends AppCompatActivity {
      * @return True if the file exists, false if it does not exist
      */
     public boolean fileExistence(String fileName) {
-        File file = getBaseContext().getFileStreamPath(fileName);
+        File file = getActivity().getFileStreamPath(fileName);
         return file.exists();
     }
 
     /**
      * Check whether or not a news article is stored in the local database.
      * Used url as the unique identifier for the news article since all url's must be unique.
-     * @param pref SharedPreferences to get the stored url from
+     * @param url
      * @return True if the url is in the database, False if the url is NOT in the database
      */
-    public boolean isAlreadyInDB(SharedPreferences pref){
+    public boolean isAlreadyInDB(String url){
 
         String selection = SavedNewsHeadlinesDBHelper.COL_URL + " LIKE ? ";
-        String[] selectionArgs = {pref.getString("url", null)};
+        String[] selectionArgs = {url};
 
         Cursor cursor = savedDB.query(
                 SavedNewsHeadlinesDBHelper.TABLE_NAME,
@@ -197,9 +208,11 @@ public class DetailedActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop() {
+    public void onStop() {
         super.onStop();
-        ImageView image = findViewById(R.id.image);
-        image.setImageResource(0);
+        //View result =  inflater.inflate(R.layout.detailed_layout, container, false);
+
+        //ImageView image = result.findViewById(R.id.image);
+        //image.setImageResource(0);
     }
 }
