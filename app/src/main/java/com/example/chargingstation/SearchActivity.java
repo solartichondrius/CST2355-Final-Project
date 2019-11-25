@@ -43,6 +43,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
+/**
+ * This class allows the user to search for a charging station based on longitude and latitude.
+ * The user can then select a result and either add to favorites, or view the location in google maps.
+ */
+
 public class SearchActivity extends AppCompatActivity {
 
     String longitude;
@@ -56,6 +61,16 @@ public class SearchActivity extends AppCompatActivity {
     SQLiteDatabase db;
     ProgressBar progressBar;
 
+    /**
+     * This method is called when the activity is created.
+     * It creates a toolbar to be used later.
+     * It creates a search button, which has an on click listener.
+     * It creates a database helper and retrieves an existing database.
+     * It creates a listview which will populate when the search results are retrieved.
+     * It looks for previously searched coordinates and prefills the edit texts.
+     * A listener for the listview contains a lambda which calls another method.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +94,7 @@ public class SearchActivity extends AppCompatActivity {
         String previousLat = sharedPrefs.getString("searchLatitude", "Latitude");
         latitudeText.setText(previousLat);
         longitudeText.setText(previousLong);
+
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.INVISIBLE);
 
@@ -102,6 +118,10 @@ public class SearchActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * When the app or activity is left (but not killed), the search is saved for the next time the activity is used.
+     * The longitude and latitude are saved.
+     */
     @Override
     protected void onPause(){
         super.onPause();
@@ -112,11 +132,23 @@ public class SearchActivity extends AppCompatActivity {
         editor.commit();
     }
 
+    /**
+     * Creates a toolbar menu
+     * @param menu The menu to be created
+     * @return true;
+     */
     public boolean onCreateOptionsMenu(Menu menu){
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_charging, menu);
         return true;
     }
+
+    /**
+     * Contains a conditional statement which handles where to go when an item is clicked.
+     * Each icon goes to a different activity.
+     * @param item The item selected
+     * @return true
+     */
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId()){
             case R.id.aboutItem:
@@ -140,6 +172,15 @@ public class SearchActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Handles when an item is pressed in the listview.
+     * An alert dialog pops up with the information about the charging station.
+     * @See ChargingStation.class.
+     * The positive button adds the selected station to the favorites database.
+     * The neutral button opens the google maps app and drops a pin at the location of the station.
+     * The negative button closes the dialog.
+     * @param station The station in the list view that was selected.
+     */
     public void resultClicked(ChargingStation station){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Name: " + station.getTitle() + "\n" + "Latitude: " + station.getLatitude() + "\n" + "Longitude: " + station.getLongitude() + "\n" + "Phone: " + station.getPhone());
@@ -162,7 +203,7 @@ public class SearchActivity extends AppCompatActivity {
         builder.setNeutralButton("View Map", new DialogInterface.OnClickListener() {
                 @Override
                  public void onClick(DialogInterface dialog, int which) {
-                    Uri mapIntentUri = Uri.parse("geo:" + station.getLatitude() + "," + station.getLongitude());
+                    Uri mapIntentUri = Uri.parse("geo:0,0?q=" + station.getLatitude() + "," + station.getLongitude() + "(" + station.getTitle() + ")");
                     Intent mapIntent = new Intent(Intent.ACTION_VIEW, mapIntentUri);
                     mapIntent.setPackage("com.google.android.apps.maps");
                     if(mapIntent.resolveActivity(getPackageManager()) != null){
@@ -179,6 +220,9 @@ public class SearchActivity extends AppCompatActivity {
         builder.create().show();
     }
 
+    /**
+     * This internal class contains all the logic behind searching for the charging stations.
+     */
     public class SearchQuery extends AsyncTask <String, Integer, String> {
 
         String title;
@@ -186,6 +230,14 @@ public class SearchActivity extends AppCompatActivity {
         double resultLong;
         double resultLat;
 
+        /**
+         * This method does all the search heavy lifting.
+         * It takes the input longitude and latitude and concatenates it into a URL which returns a JSON page with the results.
+         * The result is an array of charging station objects. The array is iterated through, looking for the needed attributes.
+         * @See ChargingStation.class
+         * @param args
+         * @return
+         */
         @Override
         protected String doInBackground(String... args){
             String ret = null;
@@ -240,7 +292,7 @@ public class SearchActivity extends AppCompatActivity {
                     }
 
                     stations.add(new ChargingStation(title, resultLong, resultLat, phone));
-                    publishProgress(i);
+                    publishProgress(i*100/resultArray.length());
                 }
 
             }catch(MalformedURLException mfe){
@@ -259,12 +311,21 @@ public class SearchActivity extends AppCompatActivity {
             return ret;
         }
 
+        /**
+         * This method is called during the search, while doInBackground is searching.
+         * It makes the progress bar visible and updates it as the search is being conducted.
+         * @param value
+         */
         public void onProgressUpdate(Integer... value){
             super.onProgressUpdate();
             progressBar.setVisibility(View.VISIBLE);
             progressBar.setProgress(value[0]);
         }
 
+        /**
+         * After the search is successful, the progress bar is hidden again, and the listview of results is updated.
+         * @param value
+         */
         public void onPostExecute(String value){
             super.onPostExecute(value);
             progressBar.setVisibility(View.INVISIBLE);
@@ -272,7 +333,11 @@ public class SearchActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * This private class handles everything related to the listview.
+     */
     private class MyListAdapter extends BaseAdapter{
+
         @Override
         public int getCount(){return stations.size();}
         @Override

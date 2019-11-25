@@ -1,5 +1,9 @@
 package com.example.chargingstation;
 
+/**
+ * This class represents one charging station, and holds all the attributes of a single station.
+ * Contains basic setters and getters for all class attributes
+ */
 public class ChargingStation {
 
     private String title;
@@ -8,6 +12,13 @@ public class ChargingStation {
     private String phone;
     private long id;
 
+    /**
+     * Initial constructor for a station
+     * @param title The name of the station
+     * @param longitude The longitude of the station
+     * @param latitude The latitude of the station
+     * @param phone The phone number of the station
+     */
     public ChargingStation(String title, double longitude, double latitude, String phone){
         this.title = title;
         this.longitude = longitude;
@@ -21,23 +32,12 @@ public class ChargingStation {
     public String getTitle(){
         return title;
     }
-    public void setLongitude(double longitude){
-        this.longitude = longitude;
-    }
     public double getLongitude(){
         return longitude;
     }
 
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
     public double getLatitude() {
         return latitude;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
     }
 
     public String getPhone() {

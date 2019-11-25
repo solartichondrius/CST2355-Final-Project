@@ -24,6 +24,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+/**
+ * This class holds and displays all charging stations added to the user's favorites database
+ */
 public class FavoriteActivity extends AppCompatActivity {
 
     private ArrayList<ChargingStation> stations = new ArrayList<>();
@@ -32,6 +35,15 @@ public class FavoriteActivity extends AppCompatActivity {
     SQLiteDatabase db;
     ListView theList;
 
+    /**
+     * This method is called when the activity is created.
+     * It creates the toolbar to be used later.
+     * It creates a list adapter for the list view.
+     * It adds all items in the database to an array list.
+     * Creates a listener for when an item is clicked in the list view.
+     * The listening lambda calls on another method.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +85,17 @@ public class FavoriteActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * This method handles when an item in the listview is clicked.
+     * An alert dialog appears displaying all the charging station's attributes.
+     * @See ChargingStation.class
+     * The positive button deletes the item from the listview and the database.
+     * The neutral button opens the google maps app and places a pin a the location of the selected charging station.
+     * The negative button closes the dialog.
+     *
+     * @param station The station selected
+     * @param position The position of the selected station in the list.
+     */
     public void resultClicked(ChargingStation station, int position){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Name: " + station.getTitle() + "\n" + "Latitude: " + station.getLatitude() + "\n" + "Longitude: " + station.getLongitude() + "\n" + "Phone: " + station.getPhone());
@@ -105,11 +128,23 @@ public class FavoriteActivity extends AppCompatActivity {
         builder.create().show();
     }
 
+    /**
+     * Creates the toolbar menu
+     * @param menu The menu to be created
+     * @return true
+     */
     public boolean onCreateOptionsMenu(Menu menu){
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_charging, menu);
         return true;
     }
+
+    /**
+     * This method handles when an item in the menu is clicked.
+     * Each icon redirects to a different activity.
+     * @param item The item selected
+     * @return true
+     */
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId()){
             case R.id.aboutItem:
@@ -133,20 +168,45 @@ public class FavoriteActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * This internal class creates and maintains the listview.
+     */
     private class MyListAdapter extends BaseAdapter {
 
+        /**
+         * Gets the number of station objects in the listview
+         * @return the number of station objects
+         */
         @Override
         public int getCount() {
             return stations.size();
         }
 
+        /**
+         * Gets the station object at a specified position in the list
+         * @param position The position of the object in the list
+         * @return the specified object
+         */
         public ChargingStation getItem(int position){
             return stations.get(position);
         }
 
+        /**
+         * Gets the ID of the station item at a certain position
+         * @param position The position of the station object in the listview
+         * @return The ID of the station object at the specified position
+         */
         public long getItemId(int position){
             return position;
         }
+
+        /**
+         * Sets the content of an individual view in the listview
+         * @param position The posiiton the item is being inserted
+         * @param recycled The old view
+         * @param parent The parent view
+         * @return The newly updated row
+         */
         public View getView(int position, View recycled, ViewGroup parent){
             thisRow = recycled;
 

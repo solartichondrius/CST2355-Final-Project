@@ -32,7 +32,7 @@
     <string name="helpButton">Help</string>
     <string name="chargingFavoriteToolbarString">Favorites</string>
     <string name="chargingSearchToolbarString">Search</string>
-    <string name="chargingHomeToolbarString">Home</string>
+    <string name="chargingHomeToolbarString">Charging Station</string>
     <string name="chargingAboutToolbarString">About</string>
     <string name="chargingViewMapButtonString">View Map</string>
 </resources>

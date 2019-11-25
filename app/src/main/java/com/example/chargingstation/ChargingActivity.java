@@ -10,8 +10,15 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+/**
+ * This class is the main activity for the car charging station portion of the app.
+ */
 public class ChargingActivity extends AppCompatActivity {
 
+    /**
+     * Sets the view from activity_charging
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,12 +27,24 @@ public class ChargingActivity extends AppCompatActivity {
         Toolbar tbar = findViewById(R.id.toolbar);
         setSupportActionBar(tbar);
     }
+
+    /**
+     *  Creates the toolbar menu
+     * @param menu the menu to create
+     * @return true
+     */
     public boolean onCreateOptionsMenu(Menu menu){
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_charging, menu);
         return true;
     }
 
+    /**
+     * Holds the conditional statement that handles which icon the user clicks on.
+     * Each item goes to a different activity
+     * @param item The item clicked
+     * @return true
+     */
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId()){
             case R.id.aboutItem:
