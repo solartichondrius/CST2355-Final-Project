@@ -30,6 +30,11 @@
     <string name="longString">Longitude</string>
     <string name="latString">Latitude</string>
     <string name="helpButton">Help</string>
+    <string name="chargingFavoriteToolbarString">Favorites</string>
+    <string name="chargingSearchToolbarString">Search</string>
+    <string name="chargingHomeToolbarString">Charging Station</string>
+    <string name="chargingAboutToolbarString">About</string>
+    <string name="chargingViewMapButtonString">View Map</string>
     <string name="versionNumber">Version Number</string>
     <string name="newsExplanation">How to use: Type something into the searchbar, then click the search button to search for news headlines that match your search phrase. You will then see a list of news headlines, you can click on them to see more detailed information about them.</string>
     <string name="searchingFor">Searching for</string>

@@ -7,6 +7,15 @@
     android:orientation="vertical"
     tools:context="com.example.chargingstation.SearchActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/search_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:title="@string/chargingSearchToolbarString" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,7 +25,8 @@
             android:id="@+id/searchLongitude"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="text"
+            android:layout_weight="1"
+            android:inputType="numberSigned|numberDecimal"
             android:text="@string/longString" />
 
         <EditText
@@ -24,8 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:ems="10"
-            android:inputType="text"
+            android:inputType="numberSigned|numberDecimal"
             android:text="@string/latString" />
 
 
@@ -41,8 +50,8 @@
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"/>
+        android:layout_height="wrap_content"/>
+       <!-- android:visibility="invisible"-->
 
     <ListView
         android:id="@+id/searchResults"
