@@ -3,18 +3,16 @@ package com.example.chargingstation;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
 import com.example.finalproject.*;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
-
 import android.net.Uri;
 import android.os.AsyncTask;
+import com.example.newsheadlines.*;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
