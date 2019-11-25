@@ -36,4 +36,16 @@
     <string name="deleteButton">Supprimer cet article de nouvelles du stockage local</string>
     <string name="saved">Article enregistré avec succès. Vous pouvez maintenant l\'afficher en mode hors connexion.</string>
     <string name="deleted">Cet article a été supprimé du stockage local.</string>
+    <string name="searchButtonString">Recherche de stations de recharge</string>
+    <string name="favoriteButtonString">Aller aux favoris</string>
+    <string name="aboutButtonString">Sur</string>
+    <string name="searchBarString">Recherche de stations de recharge</string>
+    <string name="searchButtonText">Recherche de stations de recharge</string>
+    <string name="longString">Longitude</string>
+    <string name="latString">Latitude</string>
+    <string name="chargingFavoriteToolbarString">Favoris</string>
+    <string name="chargingSearchToolbarString">Chercher</string>
+    <string name="chargingHomeToolbarString">Station de charge</string>
+    <string name="chargingAboutToolbarString">Sur</string>
+    <string name="chargingViewMapButtonString">Voir la carte</string>
 </resources>

@@ -3,7 +3,6 @@ package com.example.chargingstation;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import com.example.finalproject.*;
 import android.content.Intent;
 import com.example.newsheadlines.*;
 import android.os.Bundle;

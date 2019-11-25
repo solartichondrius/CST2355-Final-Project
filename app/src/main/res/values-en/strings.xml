@@ -36,4 +36,16 @@
     <string name="deleteButton">Delete this news article from local storage</string>
     <string name="saved">Article successfully saved. You can now view it while offline.</string>
     <string name="deleted">This article has been successfully deleted from local storage.</string>
+    <string name="searchButtonString">Search for Charging Stations</string>
+    <string name="favoriteButtonString">Go to Favorites</string>
+    <string name="aboutButtonString">About</string>
+    <string name="searchBarString">Search Charging Stations</string>
+    <string name="searchButtonText">Search Charging Stations</string>
+    <string name="longString">Longitude</string>
+    <string name="latString">Latitude</string>
+    <string name="chargingFavoriteToolbarString">Favorites</string>
+    <string name="chargingSearchToolbarString">Search</string>
+    <string name="chargingHomeToolbarString">Charging Station</string>
+    <string name="chargingAboutToolbarString">About</string>
+    <string name="chargingViewMapButtonString">View Map</string>
 </resources>
