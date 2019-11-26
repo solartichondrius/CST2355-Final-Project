@@ -9,10 +9,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -21,6 +23,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -87,13 +90,12 @@ public class NewsActivity extends AppCompatActivity {
         progressBar.setVisibility(View.INVISIBLE);
         EditText searchBar = findViewById(R.id.searchBar);
         searchBar.setText(pref.getString("searchBar", ""));
-        Button searchButton = findViewById(R.id.searchButton);
-        Button helpButton = findViewById(R.id.helpButton);
-        Button savedButton = findViewById(R.id.savedButton);
         SavedNewsHeadlinesDBHelper savedDBOpener = new SavedNewsHeadlinesDBHelper(this);
         savedDB = savedDBOpener.getWritableDatabase();
         SearchedNewsHeadlinesDBHelper searchedDBOpener = new SearchedNewsHeadlinesDBHelper(this);
         searchedDB = searchedDBOpener.getWritableDatabase();
+        Toolbar tbar = findViewById(R.id.toolbar);
+        setSupportActionBar(tbar);
         boolean isTablet = findViewById(R.id.fragmentLocation) != null; //check if the FrameLayout is loaded
 
         boolean empty = true;
@@ -147,76 +149,6 @@ public class NewsActivity extends AppCompatActivity {
                 }
             });
         }
-
-        if(helpButton != null) //when this button is pressed, show a custom dialog box displaying information about this activity
-            helpButton.setOnClickListener( v -> {
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-                alertDialogBuilder.setMessage(ACTIVITY_NAME + ", " + getString(R.string.versionNumber) + ": " + VERSION_NUMBER + "\n\n" + getString(R.string.authorText) + " " + AUTHOR + "\n\n" + getString(R.string.newsExplanation))
-                        .setPositiveButton(getString(R.string.okay), new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                //Doesn't do anything special, just clicking on it closes the dialog box
-                            }
-                        }).create().show();
-            });
-
-        if(searchButton != null) //when this button is pressed, search the url for news headlines matching the criteria entered by the user in the search bar
-            searchButton.setOnClickListener( v -> {
-                editor.putString("searchBar", searchBar.getText().toString());
-                newsHeadlines.clear();
-                NewsQuery news = new NewsQuery();
-                news.execute("https://newsapi.org/v2/everything?apiKey=1c016c8c50464e50b58ad14667f05ea1&q=" + searchBar.getText());
-                Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.searchCompleteDisplaying) + " " + pref.getString("arraySize", null) + " " + getString(R.string.outOf) + " " + pref.getString("totalResults", null) + " " + getString(R.string.totalResultsFound), Toast.LENGTH_LONG);
-                toast.show();
-            });
-
-        if(savedButton != null) // when the this button is pressed, load all of the saved news headlines from the database into the listview
-            savedButton.setOnClickListener( v -> {
-                theList = findViewById(R.id.theList);
-                theList.setAdapter( myAdapter = new savedArticlesAdapter() );
-                myAdapter.notifyDataSetChanged();
-                String [] columns = {
-                        SavedNewsHeadlinesDBHelper.COL_ID,
-                        SavedNewsHeadlinesDBHelper.COL_SOURCE,
-                        SavedNewsHeadlinesDBHelper.COL_AUTHOR,
-                        SavedNewsHeadlinesDBHelper.COL_TITLE,
-                        SavedNewsHeadlinesDBHelper.COL_DESCRIPTION,
-                        SavedNewsHeadlinesDBHelper.COL_URL,
-                        SavedNewsHeadlinesDBHelper.COL_URLTOIMAGE,
-                        SavedNewsHeadlinesDBHelper.COL_PUBLISHEDAT,
-                        SavedNewsHeadlinesDBHelper.COL_CONTENT
-                };
-                Cursor results = savedDB.query(false, SavedNewsHeadlinesDBHelper.TABLE_NAME, columns, null, null, null, null, null, null);
-                printCursor(results, savedArticles);
-                theList.setOnItemClickListener( ( parent,  view,  position,  id) ->{
-                    Bundle dataToPass = new Bundle();
-                    dataToPass.putString("source", savedArticles.get(position).getSource());
-                    dataToPass.putString("author", savedArticles.get(position).getAuthor());
-                    dataToPass.putString("title", savedArticles.get(position).getTitle());
-                    dataToPass.putString("description", savedArticles.get(position).getDescription());
-                    dataToPass.putString("url", savedArticles.get(position).getUrl());
-                    dataToPass.putString("urlToImage", savedArticles.get(position).getUrlToImage());
-                    dataToPass.putString("publishedAt", savedArticles.get(position).getPublishedAt());
-                    dataToPass.putString("content", savedArticles.get(position).getContent());
-
-                    if(isTablet)
-                    {
-                        DetailedActivity dFragment = new DetailedActivity(); //add a DetailFragment
-                        dFragment.setArguments( dataToPass ); //pass it a bundle for information
-                        dFragment.setTablet(true);  //tell the fragment if it's running on a tablet or not
-                        getSupportFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.fragmentLocation, dFragment) //Add the fragment in FrameLayout
-                                .addToBackStack("AnyName") //make the back button undo the transaction
-                                .commit(); //actually load the fragment.
-                    }
-                    else //isPhone
-                    {
-                        Intent nextActivity = new Intent(NewsActivity.this, EmptyActivity.class);
-                        nextActivity.putExtras(dataToPass); //send data to next activity
-                        startActivityForResult(nextActivity, EMPTY_ACTIVITY); //make the transition
-                    }
-                });
-            });
     }
 
     /**
@@ -403,5 +335,98 @@ public class NewsActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+    /**
+     *  Creates the toolbar menu
+     * @param menu the menu to create
+     * @return true
+     */
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_news, menu);
+        return true;
+    }
+
+    /**
+     * Holds the conditional statement that handles which icon the user clicks on.
+     * Each item goes to a different activity
+     * @param item The item clicked
+     * @return true
+     */
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch(item.getItemId()){
+            case R.id.aboutItem:
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+                alertDialogBuilder.setMessage(ACTIVITY_NAME + ", " + getString(R.string.versionNumber) + ": " + VERSION_NUMBER + "\n\n" + getString(R.string.authorText) + " " + AUTHOR + "\n\n" + getString(R.string.newsExplanation))
+                        .setPositiveButton(getString(R.string.okay), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                //Doesn't do anything special, just clicking on it closes the dialog box
+                            }
+                        }).create().show();
+                break;
+            case R.id.favoriteItem:
+                boolean isTablet = findViewById(R.id.fragmentLocation) != null; //check if the FrameLayout is loaded
+                theList = findViewById(R.id.theList);
+                theList.setAdapter( myAdapter = new savedArticlesAdapter() );
+                myAdapter.notifyDataSetChanged();
+                String [] columns = {
+                        SavedNewsHeadlinesDBHelper.COL_ID,
+                        SavedNewsHeadlinesDBHelper.COL_SOURCE,
+                        SavedNewsHeadlinesDBHelper.COL_AUTHOR,
+                        SavedNewsHeadlinesDBHelper.COL_TITLE,
+                        SavedNewsHeadlinesDBHelper.COL_DESCRIPTION,
+                        SavedNewsHeadlinesDBHelper.COL_URL,
+                        SavedNewsHeadlinesDBHelper.COL_URLTOIMAGE,
+                        SavedNewsHeadlinesDBHelper.COL_PUBLISHEDAT,
+                        SavedNewsHeadlinesDBHelper.COL_CONTENT
+                };
+                Cursor results = savedDB.query(false, SavedNewsHeadlinesDBHelper.TABLE_NAME, columns, null, null, null, null, null, null);
+                printCursor(results, savedArticles);
+                theList.setOnItemClickListener( ( parent,  view,  position,  id) ->{
+                    Bundle dataToPass = new Bundle();
+                    dataToPass.putString("source", savedArticles.get(position).getSource());
+                    dataToPass.putString("author", savedArticles.get(position).getAuthor());
+                    dataToPass.putString("title", savedArticles.get(position).getTitle());
+                    dataToPass.putString("description", savedArticles.get(position).getDescription());
+                    dataToPass.putString("url", savedArticles.get(position).getUrl());
+                    dataToPass.putString("urlToImage", savedArticles.get(position).getUrlToImage());
+                    dataToPass.putString("publishedAt", savedArticles.get(position).getPublishedAt());
+                    dataToPass.putString("content", savedArticles.get(position).getContent());
+
+                    if(isTablet)
+                    {
+                        DetailedActivity dFragment = new DetailedActivity(); //add a DetailFragment
+                        dFragment.setArguments( dataToPass ); //pass it a bundle for information
+                        dFragment.setTablet(true);  //tell the fragment if it's running on a tablet or not
+                        getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.fragmentLocation, dFragment) //Add the fragment in FrameLayout
+                                .addToBackStack("AnyName") //make the back button undo the transaction
+                                .commit(); //actually load the fragment.
+                    }
+                    else //isPhone
+                    {
+                        Intent nextActivity = new Intent(NewsActivity.this, EmptyActivity.class);
+                        nextActivity.putExtras(dataToPass); //send data to next activity
+                        startActivityForResult(nextActivity, EMPTY_ACTIVITY); //make the transition
+                    }
+                });
+                break;
+            case R.id.searchItem:
+                EditText searchBar = findViewById(R.id.searchBar);
+                editor.putString("searchBar", searchBar.getText().toString());
+                newsHeadlines.clear();
+                NewsQuery news = new NewsQuery();
+                news.execute("https://newsapi.org/v2/everything?apiKey=1c016c8c50464e50b58ad14667f05ea1&q=" + searchBar.getText());
+                Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.searchCompleteDisplaying) + " " + pref.getString("arraySize", null) + " " + getString(R.string.outOf) + " " + pref.getString("totalResults", null) + " " + getString(R.string.totalResultsFound), Toast.LENGTH_LONG);
+                toast.show();
+                break;
+            case R.id.homeItem:
+                Intent goHome = new Intent(NewsActivity.this, NewsActivity.class);
+                startActivity(goHome);
+                break;
+        }
+
+        return true;
     }
 }

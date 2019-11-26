@@ -52,4 +52,8 @@
     <string name="recipeSearchEngine">Moteur de recherche de recettes</string>
     <string name="foreignCurrencyConverter">Convertisseur de devise étrangère</string>
     <string name="newsHeadlines">Actualités</string>
+    <string name="newsHome">Main News Headlines Page</string>
+    <string name="searchNewsHeadlines">Search News Headlines</string>
+    <string name="newsFavourites">Saved News Headlines</string>
+    <string name="newsAbout">Info About This Activity</string>
 </resources>

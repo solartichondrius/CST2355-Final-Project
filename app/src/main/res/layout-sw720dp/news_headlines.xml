@@ -3,37 +3,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/helpButton"
-        android:layout_width="wrap_content"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/AppTheme"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:text="@string/helpButton" />
-
-    <Button
-        android:id="@+id/searchButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/theList"
-        android:text="@string/searchButton" />
+        android:theme="@style/AppTheme" />
 
     <EditText
         android:id="@+id/searchBar"
         android:hint="@string/searchBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@id/helpButton"
-        android:layout_toLeftOf="@id/searchButton"/>
+        android:layout_below="@+id/toolbar"
+        android:layout_toLeftOf="@+id/fragmentLocation"/>
 
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/savedButton"
+        android:layout_alignParentBottom="true"
         android:visibility="invisible"
         android:layout_alignRight="@+id/theList"
         />
@@ -44,14 +34,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/searchBar"
         android:layout_above="@id/progressBar"/>
-
-    <Button
-        android:id="@+id/savedButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/theList"
-        android:text="@string/savedButton" />
 
     <FrameLayout
         android:id="@+id/fragmentLocation"
