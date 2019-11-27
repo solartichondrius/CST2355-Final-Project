@@ -3,6 +3,7 @@ package com.example.chargingstation;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.finalproject.*;
 
@@ -152,8 +153,9 @@ public class SearchActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId()){
             case R.id.aboutItem:
-                Intent goToAbout = new Intent(SearchActivity.this, AboutActivity.class);
-                startActivity(goToAbout);
+               Intent goToAbout = new Intent(SearchActivity.this, AboutActivity.class);
+               startActivity(goToAbout);
+
                 break;
             case R.id.favoriteItem:
                 Intent goToFavorite = new Intent(SearchActivity.this, FavoriteActivity.class);

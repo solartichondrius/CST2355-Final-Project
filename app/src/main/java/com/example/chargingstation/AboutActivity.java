@@ -3,6 +3,7 @@ package com.example.chargingstation;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.finalproject.*;
 
@@ -28,6 +29,10 @@ public class AboutActivity extends AppCompatActivity {
 
         Toolbar tbar = findViewById(R.id.about_toolbar);
         setSupportActionBar(tbar);
+
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_placeholder, new AboutFragment());
+        ft.commit();
     }
 
     /**

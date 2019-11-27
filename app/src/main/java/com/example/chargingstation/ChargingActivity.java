@@ -3,6 +3,7 @@ import com.example.finalproject.*;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.view.MenuItem;
  */
 public class ChargingActivity extends AppCompatActivity {
 
+
     /**
      * Sets the view from activity_charging
      * @param savedInstanceState
@@ -26,6 +28,7 @@ public class ChargingActivity extends AppCompatActivity {
 
         Toolbar tbar = findViewById(R.id.toolbar);
         setSupportActionBar(tbar);
+
     }
 
     /**
@@ -48,8 +51,13 @@ public class ChargingActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId()){
             case R.id.aboutItem:
-                Intent goToAbout = new Intent(ChargingActivity.this, AboutActivity.class);
-                startActivity(goToAbout);
+               // Intent goToAbout = new Intent(ChargingActivity.this, AboutActivity.class);
+                //startActivity(goToAbout);
+
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.fragment_placeholder, new AboutFragment());
+                ft.commit();
+
                 break;
             case R.id.favoriteItem:
                 Intent goToFavorite = new Intent(ChargingActivity.this, FavoriteActivity.class);
