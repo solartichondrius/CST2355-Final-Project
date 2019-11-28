@@ -3,15 +3,17 @@ package com.example.chargingstation;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import com.example.newsheadlines.R;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+
 import android.net.Uri;
 import android.os.AsyncTask;
-import com.example.newsheadlines.*;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -149,8 +151,9 @@ public class SearchActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId()){
             case R.id.aboutItem:
-                Intent goToAbout = new Intent(SearchActivity.this, AboutActivity.class);
-                startActivity(goToAbout);
+               Intent goToAbout = new Intent(SearchActivity.this, AboutActivity.class);
+               startActivity(goToAbout);
+
                 break;
             case R.id.favoriteItem:
                 Intent goToFavorite = new Intent(SearchActivity.this, FavoriteActivity.class);
@@ -161,7 +164,7 @@ public class SearchActivity extends AppCompatActivity {
                 startActivity(goToSearch);
                 break;
             case R.id.homeItem:
-                Intent goHome = new Intent(SearchActivity.this, MainActivity.class);
+                Intent goHome = new Intent(SearchActivity.this, ChargingActivity.class);
                 startActivity(goHome);
                 break;
         }

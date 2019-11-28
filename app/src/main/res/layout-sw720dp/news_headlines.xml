@@ -8,6 +8,7 @@
         style="@style/AppTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/fragmentLocation"
         android:theme="@style/AppTheme" />
 
     <EditText

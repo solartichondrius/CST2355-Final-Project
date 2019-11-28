@@ -7,12 +7,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Button;
 
-import com.example.chargingstation.*;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-public class MainActivity  extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,24 +22,10 @@ public class MainActivity  extends AppCompatActivity {
         Button carButton = findViewById(R.id.carButton);
         if(carButton != null)
             carButton.setOnClickListener( v -> {
-                Intent goToCarActivity = new Intent(MainActivity.this, com.example.chargingstation.MainActivity.class);
+                Intent goToCarActivity = new Intent(MainActivity.this, com.example.chargingstation.ChargingActivity.class);
                 startActivity(goToCarActivity);
             });
-        /*
-        Button recipeButton = findViewById(R.id.recipeButton);
-        if(recipeButton != null)
-            recipeButton.setOnClickListener( v -> {
-                Intent goToRecipeActivity = new Intent(getApplicationContext(), RecipeActivity.class);
-                startActivity(goToRecipeActivity);
-            });
 
-        Button currencyButton = findViewById(R.id.currencyButton);
-        if(currencyButton != null)
-            currencyButton.setOnClickListener( v -> {
-                Intent goToCurrencyActivity = new Intent(getApplicationContext(), CurrencyActivity.class);
-                startActivity(goToCurrencyActivity);
-            });
-        */
         Button newsButton = findViewById(R.id.newsButton);
         if(newsButton != null)
             newsButton.setOnClickListener( v -> {
@@ -69,19 +53,10 @@ public class MainActivity  extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId()){
             case R.id.chargingItem:
-                Intent goToChargingStation = new Intent(MainActivity.this, com.example.chargingstation.MainActivity.class);
+                Intent goToChargingStation = new Intent(MainActivity.this, com.example.chargingstation.ChargingActivity.class);
                 startActivity(goToChargingStation);
                 break;
-                /*
-            case R.id.recipeItem:
-                Intent goToRecipeActivity = new Intent(MainActivity.this, RecipeActivity.class);
-                startActivity(goToRecipeActivity);
-                break;
-            case R.id.currencyItem:
-                Intent goToCurrencyActivity = new Intent(MainActivity.this, CurrencyActivity.class);
-                startActivity(goToCurrencyActivity);
-                break;
-                 */
+
             case R.id.newsItem:
                 Intent goToNewsActivity = new Intent(MainActivity.this, NewsActivity.class);
                 startActivity(goToNewsActivity);
