@@ -14,5 +14,12 @@
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
-        app:title="@string/chargingAboutToolbarString" />
+        app:title="@string/chargingAboutString" />
+
+    <FrameLayout
+        android:id="@+id/fragment_placeholder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </FrameLayout>
 </LinearLayout>

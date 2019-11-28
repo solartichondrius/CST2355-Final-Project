@@ -44,7 +44,7 @@ public class NewsActivity extends AppCompatActivity {
 
     ProgressBar progressBar; //progress bar to show the progress of the search for news headlines
     ListView theList; //list view to display the list of news headlines
-    String VERSION_NUMBER = "2019-11-25"; //when this program was last updated
+    String VERSION_NUMBER = "2019-11-27"; //when this program was last updated
     String ACTIVITY_NAME = "News Headline"; //name of this activity
     String AUTHOR = "Thomas Curtis"; //the person who wrote this program
     BaseAdapter myAdapter; //Adapter for the list of News Headlines
@@ -422,7 +422,7 @@ public class NewsActivity extends AppCompatActivity {
                 toast.show();
                 break;
             case R.id.homeItem:
-                Intent goHome = new Intent(NewsActivity.this, NewsActivity.class);
+                Intent goHome = new Intent(NewsActivity.this, MainActivity.class);
                 startActivity(goHome);
                 break;
         }

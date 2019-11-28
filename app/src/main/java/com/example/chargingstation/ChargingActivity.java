@@ -1,8 +1,9 @@
 package com.example.chargingstation;
-import com.example.newsheadlines.*;
+import com.example.newsheadlines.R;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +14,8 @@ import android.view.MenuItem;
 /**
  * This class is the main activity for the car charging station portion of the app.
  */
-public class MainActivity extends AppCompatActivity {
+public class ChargingActivity extends AppCompatActivity {
+
 
     /**
      * Sets the view from activity_charging
@@ -26,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar tbar = findViewById(R.id.toolbar);
         setSupportActionBar(tbar);
+
     }
 
     /**
@@ -48,19 +51,24 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId()){
             case R.id.aboutItem:
-                Intent goToAbout = new Intent(MainActivity.this, AboutActivity.class);
-                startActivity(goToAbout);
+               // Intent goToAbout = new Intent(ChargingActivity.this, AboutActivity.class);
+                //startActivity(goToAbout);
+
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.fragment_placeholder, new AboutFragment());
+                ft.commit();
+
                 break;
             case R.id.favoriteItem:
-                Intent goToFavorite = new Intent(MainActivity.this, FavoriteActivity.class);
+                Intent goToFavorite = new Intent(ChargingActivity.this, FavoriteActivity.class);
                 startActivity(goToFavorite);
                 break;
             case R.id.searchItem:
-                Intent goToSearch = new Intent(MainActivity.this, SearchActivity.class);
+                Intent goToSearch = new Intent(ChargingActivity.this, SearchActivity.class);
                 startActivity(goToSearch);
                 break;
             case R.id.homeItem:
-                Intent goHome = new Intent(MainActivity.this, MainActivity.class);
+                Intent goHome = new Intent(ChargingActivity.this, ChargingActivity.class);
                 startActivity(goHome);
                 break;
         }

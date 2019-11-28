@@ -3,8 +3,10 @@ package com.example.chargingstation;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentTransaction;
+import com.example.newsheadlines.R;
+
 import android.content.Intent;
-import com.example.newsheadlines.*;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,6 +28,10 @@ public class AboutActivity extends AppCompatActivity {
 
         Toolbar tbar = findViewById(R.id.about_toolbar);
         setSupportActionBar(tbar);
+
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_placeholder, new AboutFragment());
+        ft.commit();
     }
 
     /**
@@ -60,7 +66,7 @@ public class AboutActivity extends AppCompatActivity {
                 startActivity(goToSearch);
                 break;
             case R.id.homeItem:
-                Intent goHome = new Intent(AboutActivity.this, MainActivity.class);
+                Intent goHome = new Intent(AboutActivity.this, ChargingActivity.class);
                 startActivity(goHome);
                 break;
         }
