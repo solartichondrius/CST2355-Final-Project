@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -99,13 +100,15 @@ public class FavoriteActivity extends AppCompatActivity {
     public void resultClicked(ChargingStation station, int position){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Name: " + station.getTitle() + "\n" + "Latitude: " + station.getLatitude() + "\n" + "Longitude: " + station.getLongitude() + "\n" + "Phone: " + station.getPhone());
-        builder.setPositiveButton("Delete from Favorites", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // delete
                 db.execSQL("DELETE FROM " + DatabaseOpenHelper.TABLE + " WHERE " + DatabaseOpenHelper.COL_ID + " = " + station.getId());
                 stations.remove(stations.get(position));
                 myAdapter.notifyDataSetChanged();
+
+                Toast.makeText(FavoriteActivity.this,"Station deleted", Toast.LENGTH_LONG).show();
             }
         });
         builder.setNegativeButton("Close", new DialogInterface.OnClickListener() {

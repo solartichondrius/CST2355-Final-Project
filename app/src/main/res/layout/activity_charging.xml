@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:scrollbars="vertical"
     tools:context="com.example.chargingstation.ChargingActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -22,10 +30,9 @@
         app:srcCompat="@drawable/car_charging" />
 
     <FrameLayout
+        android:id="@+id/fragment_placeholder"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/fragment_placeholder">
-
-    </FrameLayout>
+        android:layout_height="match_parent"/>
 
 </LinearLayout>
+</ScrollView>

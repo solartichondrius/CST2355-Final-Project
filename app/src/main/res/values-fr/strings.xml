@@ -23,4 +23,26 @@
     <string name="recipeButton">Moteur de recherche de recettes</string>
     <string name="currencyButton">Conversion de devise étrangère</string>
     <string name="helpButton">Aidez-moi</string>
+
+    <string name="searchButtonString">Recherche de station de charge</string>
+    <string name="favoriteButtonString">Aller aux favoris</string>
+    <string name="aboutButtonString">Information</string>
+    <string name="searchBarString">Rechercher des stations de charge</string>
+    <string name="searchButtonText">Rechercher des stations de charge</string>
+    <string name="longString">Longitude</string>
+    <string name="latString">Latitude</string>
+    <string name="chargingFavoriteToolbarString">Favoris</string>
+    <string name="chargingSearchToolbarString">Chercher</string>
+    <string name="chargingHomeToolbarString">Station de charge</string>
+    <string name="chargingAboutString">Information</string>
+    <string name="chargingViewMapButtonString">Voir la carte</string>
+    <string name="chargingAboutAuthorString">Auteure: Bea King</string>
+    <string name="chargingAboutVersionString">Version: 4.2</string>
+    <string name="chargingAboutInstructionsTitleString">Comment utiliser</string>
+    <string name="chargingAboutInstructionsString">Vous pouvez effectuer une recherche en cliquant sur l\'icône en forme de loupe dans la barre d\'outils. \n\n
+    La recherche prend deux paramètres: longitude et latitude. \n\n
+    Lorsque vous sélectionnez un résultat, vous pouvez l\'ajouter à vos favoris pour une utilisation ultérieure. \n\n
+    Vous pouvez également afficher le résultat dans l\'application Google Maps. \n\n
+    Vous pouvez naviguer dans vos favoris en cliquant sur l\'icône du cœur dans la barre d\'outils. Dans les favoris, vous pouvez sélectionner un élément et afficher son emplacement dans google.
+    cartes, ou supprimez-le de vos favoris.</string>
 </resources>
