@@ -44,7 +44,7 @@ public class NewsActivity extends AppCompatActivity {
 
     ProgressBar progressBar; //progress bar to show the progress of the search for news headlines
     ListView theList; //list view to display the list of news headlines
-    String VERSION_NUMBER = "2019-11-27"; //when this program was last updated
+    String VERSION_NUMBER = "2019-12-02"; //when this program was last updated
     String ACTIVITY_NAME = "News Headline"; //name of this activity
     String AUTHOR = "Thomas Curtis"; //the person who wrote this program
     BaseAdapter myAdapter; //Adapter for the list of News Headlines
