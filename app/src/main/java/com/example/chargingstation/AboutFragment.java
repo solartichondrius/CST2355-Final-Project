@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
-import com.example.finalproject.R;
+import com.example.newsheadlines.R;
 
 public class AboutFragment extends Fragment {
 

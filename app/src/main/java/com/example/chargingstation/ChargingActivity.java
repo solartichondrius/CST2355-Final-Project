@@ -1,5 +1,5 @@
 package com.example.chargingstation;
-import com.example.finalproject.*;
+import com.example.newsheadlines.R;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;

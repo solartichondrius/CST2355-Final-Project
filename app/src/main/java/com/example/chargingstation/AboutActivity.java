@@ -4,8 +4,7 @@ package com.example.chargingstation;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentTransaction;
-
-import com.example.finalproject.*;
+import com.example.newsheadlines.R;
 
 import android.content.Intent;
 import android.os.Bundle;
