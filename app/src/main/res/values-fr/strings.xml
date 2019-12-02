@@ -41,18 +41,12 @@
     <string name="deleteButton">Supprimer cet article de nouvelles du stockage local</string>
     <string name="saved">Article enregistré avec succès. Vous pouvez maintenant l\'afficher en mode hors connexion.</string>
     <string name="deleted">Cet article a été supprimé du stockage local.</string>
-    <string name="searchButtonString">Recherche de stations de recharge</string>
-    <string name="favoriteButtonString">Aller aux favoris</string>
-    <string name="aboutButtonString">Sur</string>
-    <string name="searchBarString">Recherche de stations de recharge</string>
-    <string name="searchButtonText">Recherche de stations de recharge</string>
     <string name="longString">Longitude</string>
     <string name="latString">Latitude</string>
     <string name="chargingFavoriteToolbarString">Favoris</string>
     <string name="chargingSearchToolbarString">Chercher</string>
     <string name="chargingHomeToolbarString">Station de charge</string>
     <string name="chargingAboutString">Information</string>
-    <string name="chargingViewMapButtonString">Voir la carte</string>
     <string name="chargingAboutAuthorString">Auteure: Bea King</string>
     <string name="chargingAboutVersionString">Version: 4.2</string>
     <string name="chargingAboutInstructionsTitleString">Comment utiliser</string>
@@ -62,14 +56,14 @@
     Vous pouvez également afficher le résultat dans l\'application Google Maps. \n\n
     Vous pouvez naviguer dans vos favoris en cliquant sur l\'icône du cœur dans la barre d\'outils. Dans les favoris, vous pouvez sélectionner un élément et afficher son emplacement dans google.
     cartes, ou supprimez-le de vos favoris.</string>
-    <string name="chargingAboutToolbarString">Sur</string>
     <string name="chargingViewMapButtonString">Voir la carte</string>
     <string name="electricCarChargingStationFinder">Station de recharge pour voiture électrique</string>
     <string name="recipeSearchEngine">Moteur de recherche de recettes</string>
     <string name="foreignCurrencyConverter">Convertisseur de devise étrangère</string>
     <string name="newsHeadlines">Actualités</string>
-    <string name="newsHome">Main News Headlines Page</string>
-    <string name="searchNewsHeadlines">Search News Headlines</string>
-    <string name="newsFavourites">Saved News Headlines</string>
-    <string name="newsAbout">Info About This Activity</string>
+    <string name="newsHome">Page principale des titres de nouvelles</string>
+    <string name="searchNewsHeadlines">Rechercher des titres d\'actualités</string>
+    <string name="newsFavourites">Manchettes de nouvelles sauvegardées</string>
+    <string name="newsAbout">Informations sur cette activité</string>
+    <string name="chargingAboutToolbarString">Sur</string>
 </resources>

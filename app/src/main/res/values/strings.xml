@@ -65,4 +65,5 @@
     <string name="searchNewsHeadlines">Search News Headlines</string>
     <string name="newsFavourites">Saved News Headlines</string>
     <string name="newsAbout">Info About This Activity</string>
+    <string name="chargingAboutToolbarString">About</string>
 </resources>

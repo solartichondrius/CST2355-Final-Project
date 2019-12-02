@@ -56,4 +56,14 @@
     <string name="searchNewsHeadlines">Search News Headlines</string>
     <string name="newsFavourites">Saved News Headlines</string>
     <string name="newsAbout">Info About This Activity</string>
+    <string name="chargingAboutString">About</string>
+    <string name="chargingAboutAuthorString">Author: Bea King</string>
+    <string name="chargingAboutVersionString">Version: 4.2</string>
+    <string name="chargingAboutInstructionsTitleString">How to use</string>
+    <string name="chargingAboutInstructionsString">You can search by clicking the magnifying glass icon in the toolbar.\n\n
+    The search takes two parameters: longitude and latitude.\n\n
+    When you select a result, you can add the result to your favorites for later use.\n\n
+    You can also view where the result is in the Google Maps app.\n\n
+    You can navigate to your favorites by clicking the heart icon in the toolbar. In Favorites, you cna select an item and view where it is in google
+    maps, or delete it from your favorites.</string>
 </resources>
