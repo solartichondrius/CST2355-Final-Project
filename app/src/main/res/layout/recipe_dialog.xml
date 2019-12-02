@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/dialog_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Author: Phong Doan" />
+
+    <TextView
+        android:id="@+id/instruction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dialog_name"
+        android:text="Instruction: Type in the search the foods you want to look, then hit Search to display all the recipes include that food"/>
+
+    <TextView
+        android:id="@+id/version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/instruction"
+        android:layout_alignParentLeft="true"/>
+</RelativeLayout>
